@@ -18,19 +18,16 @@ const upload = {
      * @returns {String} token
      */
     uptoken() {
-        const AK =  'NbwIjO65vUzIpR6svD94ayLJzJxm52SZcLdyCXte'//在个人中心内
-        const SK = 'HDPz9SIMDfUXPFRNJ4KZCuSHHbKz2UqZGyzSUt_u'
-        const bucket = 'schoolbbs'//空间名称
-        //鉴权对象mac
-        const mac = new qiniu.auth.digest.Mac(AK, SK)
-        //获取上传的token
-        const options = {
-        scope: bucket,
-        expires: 3600 * 24 //到期时间
-        }
-        const putPolicy = new qiniu.rs.PutPolicy(options)
-        const uploadToken = putPolicy.uploadToken(mac)//这是我们获取到的token，后端用接口传到前端，这里就不描述了
-        console.log(uploadToken);
+        var bucket = config.bucket;
+        var accessKey = config.ACCESS_KEY;
+        var secretKey = config.SECRET_KEY;
+        var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+        var options = {
+            scope: bucket
+        };
+        var putPolicy = new qiniu.rs.PutPolicy(options);
+
+        var uploadToken = putPolicy.uploadToken(mac);
         return uploadToken;
     },
     /**
